@@ -10,15 +10,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 @AllArgsConstructor
-public class OrderAddress {
-    @NotNull
-    @Max(value = 50)
-    private final String street;
-    @NotNull
-    @Max(value = 10)
-    private final String postalCode;
-    @NotNull
-    @Max(value = 50)
-    private final String city;
-
+public record OrderAddress(
+        @NotNull
+        @Max(value = 50)
+        String street,
+        @NotNull
+        @Max(value = 10)
+        String postalCode,
+        @NotNull
+        @Max(value = 50)
+        String city) {
 }
