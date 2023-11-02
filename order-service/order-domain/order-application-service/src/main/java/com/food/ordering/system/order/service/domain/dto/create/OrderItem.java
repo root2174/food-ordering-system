@@ -19,5 +19,5 @@ public record OrderItem(
         @NotNull
         BigDecimal price,
         @NotNull
-        BigDecimal subtotal) {
+        BigDecimal subTotal) {
 }
