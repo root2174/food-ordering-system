@@ -27,7 +27,7 @@ public class OrderDataMapper {
                 .products(createOrderCommand
                         .getItems()
                         .stream()
-                        .map(orderItem -> new Product(new ProductId(orderItem.getProductId())))
+                        .map(orderItem -> new Product(new ProductId(orderItem.productId())))
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -47,10 +47,10 @@ public class OrderDataMapper {
                 .stream()
                 .map(orderItem ->
                         OrderItem.Builder.builder()
-                                .product(new Product(new ProductId(orderItem.getProductId())))
-                                .price(new Money(orderItem.getPrice()))
-                                .quantity(orderItem.getQuantity())
-                                .subTotal(new Money(orderItem.getSubTotal()))
+                                .product(new Product(new ProductId(orderItem.productId())))
+                                .price(new Money(orderItem.price()))
+                                .quantity(orderItem.quantity())
+                                .subTotal(new Money(orderItem.subTotal()))
                                 .build())
                 .collect(Collectors.toList());
     }

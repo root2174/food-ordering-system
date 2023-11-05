@@ -28,11 +28,11 @@ public class OrderTrackCommandHandler {
 
     @Transactional(readOnly = true)
     public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery) {
-        Optional<Order> orderResult = orderRepository.findByTrackingId(new TrackingId(trackOrderQuery.getOrderTrackingId()));
+        Optional<Order> orderResult = orderRepository.findByTrackingId(new TrackingId(trackOrderQuery.orderTrackingId()));
 
         if (orderResult.isEmpty()) {
-            log.warn("Could not find order with tracking id: {}", trackOrderQuery.getOrderTrackingId());
-            throw new OrderNotFoundException("Could not find order with tracking id: " + trackOrderQuery.getOrderTrackingId());
+            log.warn("Could not find order with tracking id: {}", trackOrderQuery.orderTrackingId());
+            throw new OrderNotFoundException("Could not find order with tracking id: " + trackOrderQuery.orderTrackingId());
         }
 
         return orderDataMapper.orderToTrackOrderResponse(orderResult.get());
