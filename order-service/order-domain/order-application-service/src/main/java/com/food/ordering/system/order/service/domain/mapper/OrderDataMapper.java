@@ -4,12 +4,13 @@ import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.ProductId;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
-import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
-import com.food.ordering.system.order.service.domain.entity.Order;
-import com.food.ordering.system.order.service.domain.entity.OrderItem;
+import com.food.ordering.system.order.service.domain.dto.create.OrderItem;
+import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
 import com.food.ordering.system.order.service.domain.entity.Product;
+import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
+import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class OrderDataMapper {
                 .products(createOrderCommand
                         .getItems()
                         .stream()
-                        .map(orderItem -> new Product(new ProductId(orderItem.getProductId())))
+                        .map(orderItem -> new Product(new ProductId(orderItem.productId())))
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -41,15 +42,15 @@ public class OrderDataMapper {
                 .build();
     }
 
-    private List<OrderItem> orderItemsToOrderItemEntities(List<com.food.ordering.system.order.service.domain.dto.create.OrderItem> orderItems) {
+    private List<com.food.ordering.system.order.service.domain.entity.OrderItem> orderItemsToOrderItemEntities(List<OrderItem> orderItems) {
         return orderItems
                 .stream()
                 .map(orderItem ->
-                        OrderItem.Builder.builder()
-                                .product(new Product(new ProductId(orderItem.getProductId())))
-                                .price(new Money(orderItem.getPrice()))
-                                .quantity(orderItem.getQuantity())
-                                .subTotal(new Money(orderItem.getSubtotal()))
+                        com.food.ordering.system.order.service.domain.entity.OrderItem.Builder.builder()
+                                .product(new Product(new ProductId(orderItem.productId())))
+                                .price(new Money(orderItem.price()))
+                                .quantity(orderItem.quantity())
+                                .subTotal(new Money(orderItem.subTotal()))
                                 .build())
                 .collect(Collectors.toList());
     }
@@ -63,11 +64,21 @@ public class OrderDataMapper {
         );
     }
 
-    public CreateOrderResponse orderToCreateOrderResponse(Order order) {
+    public CreateOrderResponse orderToCreateOrderResponse(Order order, String message) {
         return CreateOrderResponse
                 .builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .message(message)
+                .build();
+    }
+
+    public TrackOrderResponse orderToTrackOrderResponse(Order order) {
+        return TrackOrderResponse
+                .builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
                 .build();
     }
 }

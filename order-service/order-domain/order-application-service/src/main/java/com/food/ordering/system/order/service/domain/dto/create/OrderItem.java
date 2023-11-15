@@ -8,9 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Getter
 @Builder
-@AllArgsConstructor
 public record OrderItem(
         @NotNull
         UUID productId,
@@ -19,5 +17,5 @@ public record OrderItem(
         @NotNull
         BigDecimal price,
         @NotNull
-        BigDecimal subtotal) {
+        BigDecimal subTotal) {
 }
