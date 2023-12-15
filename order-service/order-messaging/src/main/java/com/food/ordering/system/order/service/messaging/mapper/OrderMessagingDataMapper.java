@@ -1,6 +1,8 @@
 package com.food.ordering.system.order.service.messaging.mapper;
 
+import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.kafka.producer.system.kafka.order.avro.model.*;
+import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -57,6 +59,20 @@ public class OrderMessagingDataMapper {
 						.build()).collect(Collectors.toList()))
 				.setPrice(order.getPrice().getAmount())
 				.setCreatedAt(domainEvent.getCreatedAt().toInstant())
+				.build();
+	}
+
+	public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponseAvroModel paymentResponseAvroModel) {
+		return PaymentResponse.builder()
+				.orderId(paymentResponseAvroModel.getOrderId())
+				.paymentId(paymentResponseAvroModel.getPaymentId())
+				.sagaId(paymentResponseAvroModel.getSagaId())
+				.customerId(paymentResponseAvroModel.getCustomerId())
+				.id(paymentResponseAvroModel.getId())
+				.price(paymentResponseAvroModel.getPrice())
+				.createdAt(paymentResponseAvroModel.getCreatedAt())
+				.paymentStatus(PaymentStatus.valueOf(paymentResponseAvroModel.getPaymentStatus().name()))
+				.failureMessages(paymentResponseAvroModel.getFailureMessages())
 				.build();
 	}
 }
