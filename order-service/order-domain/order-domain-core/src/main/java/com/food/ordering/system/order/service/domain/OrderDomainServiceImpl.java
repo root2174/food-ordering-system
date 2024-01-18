@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class OrderDomainServiceImp implements OrderDomainService {
+public class OrderDomainServiceImpl implements OrderDomainService {
 
     private static final String ZONE_ID = "UTC";
     @Override

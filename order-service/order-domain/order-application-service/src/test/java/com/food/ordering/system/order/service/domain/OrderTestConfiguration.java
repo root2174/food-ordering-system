@@ -43,6 +43,6 @@ public class OrderTestConfiguration {
 
 	@Bean
 	public OrderDomainService orderDomainService() {
-		return new OrderDomainServiceImp();
+		return new OrderDomainServiceImpl();
 	}
 }
